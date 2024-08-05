@@ -13,7 +13,7 @@ export const addReview = (data) => async (dispatch) => {
     dispatch(reviewRequest());
     const review = await axios({
       method: "POST",
-      url: "https://tiffin-managment.onrender.com/api/v1/review",
+      url: "http://localhost:4000/api/v1/review",
       data,
     });
     dispatch(addReviewSuccess(review.data));
@@ -26,7 +26,7 @@ export const getAllReview = () => async (dispatch) => {
     dispatch(reviewRequest());
     const review = await axios({
       method: "GET",
-      url: `https://tiffin-managment.onrender.com/api/v1/review`,
+      url: `http://localhost:4000/api/v1/review`,
     });
     dispatch(allReviewSuccess(review.data));
   } catch (error) {
@@ -38,7 +38,7 @@ export const getProvidersReview = (_id) => async (dispatch) => {
     dispatch(providerReviewRequest());
     const review = await axios({
       method: "GET",
-      url: `https://tiffin-managment.onrender.com/api/v1/review/${_id}`,
+      url: `http://localhost:4000/api/v1/review/${_id}`,
     });
     dispatch(reviewSuccess(review.data));
   } catch (error) {

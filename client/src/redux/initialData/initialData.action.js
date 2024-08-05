@@ -10,7 +10,7 @@ export const getInitialData = async (dispatch) => {
     dispatch(initialDataRequest());
     const data = await axios({
       method: "GET",
-      url: "https://tiffin-managment.onrender.com/api/v1/initialData",
+      url: "http://localhost:4000/api/v1/initialData",
     });
     dispatch(initialDataSuccess(data.data));
   } catch (error) {
