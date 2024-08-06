@@ -8,20 +8,20 @@ exports.registerProvider = async(req,res) =>{
     try {
         const {name,email,password,phoneNumber,address} = req.body;
         const providerExists = await providerModel.findOne({email})
+        // Checking If Proiver Already Exist With Entered Email
+        if(providerExists)
+            return res.status(400).json({message:"Provider Already Exists"});
+        // Checking if email exists as user
+        const isUser = await userModel.findOne({email});
+        if(isUser)
+            return res.status(400).json({message:"Invalid email! Email exists as user"});
         let providerLogo = "";
         if(req.file){
             const location = req.file.buffer;
             const result = await uploads(location);
             providerLogo = result.url;
         }
-        // Checking If Proiver Already Exist With Entered Email
-        if(providerExists)
-            return res.status(400).json({message:"Provider Already Exists"});
 
-        // Checking if email exists as user
-        const isUser = await userModel.findOne({email});
-        if(isUser)
-            return res.status(400).json({message:"Invalid email! Email exists as user"});
         const data = {
             name,
             email,
@@ -67,7 +67,7 @@ exports.getProviderDetails = async(req,res) =>{
         if(!req?.provider){
             return res.status(404).json({message:"No provider Found"});
         }
-        const provider = await providerModel.findOne({_id:req.provider._id})
+        const provider = await providerModel.findOne({_id:req.provider._id}).select('-password')
         if(!provider)
             return res.status(404).json({message:"No provider Found"});
         return res.status(200).json({provider});
@@ -77,7 +77,7 @@ exports.getProviderDetails = async(req,res) =>{
 }
 exports.getAllProviders = async(req,res) =>{
     try{
-        const allProviders = await providerModel.find();
+        const allProviders = await providerModel.find().select("-password");
 
         if(!allProviders.length === 0)
             return res.status(404).json({success:false});
@@ -91,7 +91,7 @@ exports.getProviderById = async(req,res) =>{
     try {
         const {_id} = req.params;
 
-        const provider = await providerModel.findById(_id);
+        const provider = await providerModel.findById(_id).select("-password");
 
         if(!provider)
             return res.status(404).json({success:false});

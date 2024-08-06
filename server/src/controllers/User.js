@@ -13,8 +13,10 @@ exports.registerUser = async(req,res) =>{
         
         // Checking if email already exists as provider Email Id
         const isProvider = await providerModel.findOne({email});
-        if(isProvider)
+        if(isProvider){
+            console.log('hello')
             return res.status(400).json({message:"Try Different Email Id"})
+        }
 
         const user = await userModel.create({name,email,password,phoneNumber});
         generateToken(res,201,user,true)
@@ -41,7 +43,7 @@ exports.getUserDetails = async(req,res) =>{
       if(!req.user)
         return res.status(400).json({message:"Invalid request"})
       const user = await userModel.findOne(req.user._id);
-  
+        user.password =""
       if(!user)
         return res.status(404).json({message:"No user found"});
       return res.status(200).json({user});

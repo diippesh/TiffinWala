@@ -3,6 +3,7 @@ const foodModel =require('../models/food')
 const {sendEmail} = require('../utils/sendEmail')
 exports.addOrder = async(req,res) =>{
     try {
+        console.log(req.user)
         const user = req.user._id;
         if(!user)
             return res.status(400).json({message:"Plzz Login to make orders"});

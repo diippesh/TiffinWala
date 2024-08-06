@@ -11,6 +11,8 @@ exports.isProvider = async (req,res,next) =>{
             else
                 res.status(400).json({message:"Invalid Request"})
             next();
+        }else{
+            res.status(400).json({message:"token not found"});
         }
         }catch(error){
             return res.status(500).json({success:false,message:error.message});

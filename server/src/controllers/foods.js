@@ -30,7 +30,11 @@ exports.addFood = async(req,res) =>{
 exports.getAllFoodsOfProvider = async(req,res) =>{
     try {
         const {_id} = req.params;
-        const foods = await foodModel.find({provider:_id}).populate("provider");
+        const foods = await foodModel.find({ provider: _id }).populate({
+            path: "provider",
+            select: "-password",
+            
+          });
 
         if(!foods)
             return res.status(404).json({message:"NO Food Found"})
@@ -46,7 +50,11 @@ exports.getFoodById = async(req,res) =>{
         if(!_id)
             return res.status(400).json({message:"Unable to get Food"});
         
-        const food = await foodModel.findById(_id).populate("provider");
+        const food = await foodModel.findById(_id).populate({
+            path: "provider",
+            select: "-password",
+            
+          });
 
         if(!food)
             return res.status(404).json({message:"No food Found"});
@@ -59,9 +67,14 @@ exports.getFoodById = async(req,res) =>{
 exports.deleteFood = async(req,res) =>{
     try {
         const {_id} = req.params;
-
-        if(!_id)
+        const foodie = await foodModel.findById(_id);
+   
+        if(!_id || foodie.provider != req.provider._id){
+            console.log(foodie.provider)
+            console.log(req.provider._id)
             return res.status(404).json({message:"Invalid Request"})
+        }
+
         
         const food = await foodModel.findByIdAndDelete(_id);
 
