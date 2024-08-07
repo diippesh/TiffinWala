@@ -14,7 +14,7 @@ exports.registerUser = async(req,res) =>{
         // Checking if email already exists as provider Email Id
         const isProvider = await providerModel.findOne({email});
         if(isProvider){
-            console.log('hello')
+          
             return res.status(400).json({message:"Try Different Email Id"})
         }
 

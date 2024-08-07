@@ -174,7 +174,9 @@ export default function OrderTable() {
                   <StyledTableCell align='center'>
                     <div className='flex items-center gap-2'>
                       <span>{order.orderStatus}</span>
-                      {order.orderStatus === "Ordered" && <span onClick={() => setActiveOrder(order)}><OrderActionMenu order={activeOrder} /></span>}
+                      {order.orderStatus === "Ordered" && <span onClick={() => {
+                       
+                        setActiveOrder(order)}}><OrderActionMenu order={activeOrder} /></span>}
                     </div>
                   </StyledTableCell>
                 </StyledTableRow>

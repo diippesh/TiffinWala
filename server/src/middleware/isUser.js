@@ -7,7 +7,7 @@ exports.isUser = async (req, res, next) => {
            
             const token = req.headers.authorization.split(" ")[1]
             const decodeData = jwt.verify(token, process.env.SECRET_KEY);
-            const user = await userModel.findById(decodeData.id);
+            const user = await userModel.findById(decodeData.id).select('-password');
             if (user) {
                 
                 req.user = user

@@ -5,7 +5,7 @@ exports.isProvider = async (req,res,next) =>{
         if(req.headers.authorization && req.headers.authorization.startsWith("Bearer")){
             const token = req.headers.authorization.split(" ")[1];
             const decodeData = jwt.verify(token, process.env.SECRET_KEY);
-            const provider = await providerModel.findById(decodeData.id);
+            const provider = await providerModel.findById(decodeData.id).select('-password');
             if(provider)
                 req.provider = provider
             else

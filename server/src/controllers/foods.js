@@ -70,8 +70,7 @@ exports.deleteFood = async(req,res) =>{
         const foodie = await foodModel.findById(_id);
    
         if(!_id || foodie.provider != req.provider._id){
-            console.log(foodie.provider)
-            console.log(req.provider._id)
+         
             return res.status(404).json({message:"Invalid Request"})
         }
 
